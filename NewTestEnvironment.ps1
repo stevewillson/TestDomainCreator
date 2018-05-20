@@ -1,17 +1,18 @@
+# Steve Willson
+# 5/20/18
+# Forked from https://github.com/adbertram/TestDomainCreator
+
 configuration NewTestEnvironment
 {        
     Import-DscResource -ModuleName xActiveDirectory
-    
-    ## Authenticate to Azure
-    Login-AzureRmAccount
+    Import-DscResource -ModuleName 'PSDesiredStateConfiguration'
 
-    ## This will be invoked by Azure Automation so grab the Azure Automation DSC credential asset and use it.
-    $credParams = @{
-        ResourceGroupName = 'Group'
-        AutomationAccountName = 'adamautomation'
-    }
-    $defaultAdUserCred = Get-AutomationPSCredential -Name 'Default AD User Password'
-    $domainSafeModeCred = Get-AutomationPSCredential -Name 'Domain safe mode'
+
+
+    $pwd = ConvertTo-SecureString "ReallyStrongAdminPassword" -AsPlainText -Force
+
+    $defaultAdUserCred = New-Object System.Management.Automation.PSCredential("test\Administrator",$pwd)
+    $domainSafeModeCred = New-Object System.Management.Automation.PSCredential('(Password Only)',$pwd)
             
     Node $AllNodes.where({ $_.Purpose -eq 'Domain Controller' }).NodeName
     {
@@ -24,6 +25,8 @@ configuration NewTestEnvironment
                     DependsOn = '[xADDomain]ADDomain'
                 }
             })
+
+# Overwrite these areas to receive OUs from another source
 
         @($ConfigurationData.NonNodeData.OrganizationalUnits).foreach( {
                 xADOrganizationalUnit $_
@@ -68,3 +71,10 @@ configuration NewTestEnvironment
         }
     }         
 }
+
+NewTestEnvironment -ConfigurationData $ConfigurationData
+
+# This will prompt for the 'Administrator' credentials and use those to setup the environment
+# need to use the same Admininstrator credentials on all machines
+
+Start-DscConfiguration -path .\NewTestEnvironment -Wait -Force -Credential Administrator

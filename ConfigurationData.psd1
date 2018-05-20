@@ -6,7 +6,7 @@
             PsDscAllowPlainTextPassword = $true
 		},
 		@{
-			NodeName = 'LABDC'
+			NodeName = '10.0.0.10'
             Purpose = 'Domain Controller'
             WindowsFeatures = 'AD-Domain-Services'
         }
