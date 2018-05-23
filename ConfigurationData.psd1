@@ -11,8 +11,9 @@
             WindowsFeatures = 'AD-Domain-Services'
         }
     )
+    # future add functionality to import users from a csv file
     NonNodeData = @{
-        DomainName = 'mytestlab.local'
+        DomainName = 'test.local'
         AdGroups = 'Accounting','Information Systems','Executive Office','Janitorial Services'
         OrganizationalUnits = 'Accounting','Information Systems','Executive Office','Janitorial Services'
         AdUsers = @(

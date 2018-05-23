@@ -7,8 +7,6 @@ configuration NewTestEnvironment
     Import-DscResource -ModuleName xActiveDirectory
     Import-DscResource -ModuleName 'PSDesiredStateConfiguration'
 
-
-
     $pwd = ConvertTo-SecureString "ReallyStrongAdminPassword" -AsPlainText -Force
 
     $defaultAdUserCred = New-Object System.Management.Automation.PSCredential("test\Administrator",$pwd)
@@ -71,6 +69,11 @@ configuration NewTestEnvironment
         }
     }         
 }
+
+# Need to get the content of the ConfigurationData.psd1 file and store in the $ConfigurationData variable
+Write-Host 'Getting ConfigData from local file'
+$configDataFilePath = ".\ConfigurationData.psd1"
+$ConfigurationData = Invoke-Expression (Get-Content -Path $configDataFilePath -Raw)
 
 NewTestEnvironment -ConfigurationData $ConfigurationData
 
