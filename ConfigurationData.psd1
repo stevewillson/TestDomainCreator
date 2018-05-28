@@ -9,6 +9,18 @@
 			NodeName = '10.0.0.10'
             Purpose = 'Domain Controller'
             WindowsFeatures = 'AD-Domain-Services'
+        },
+		@{
+			NodeName = '10.0.0.11'
+            Purpose = 'Mail Server'
+        },
+		@{
+			NodeName = '10.0.0.30'
+            Purpose = 'Domain Joined Computer
+        },
+		@{
+			NodeName = '10.0.0.31'
+            Purpose = 'Domain Joined Computer
         }
     )
     # future add functionality to import users from a csv file

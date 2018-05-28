@@ -7,7 +7,7 @@ configuration NewTestEnvironment
     Import-DscResource -ModuleName xActiveDirectory
     Import-DscResource -ModuleName 'PSDesiredStateConfiguration'
 
-    $pwd = ConvertTo-SecureString "ReallyStrongAdminPassword" -AsPlainText -Force
+    $pwd = ConvertTo-SecureString "ReallyStrongPassword123!@#" -AsPlainText -Force
 
     $defaultAdUserCred = New-Object System.Management.Automation.PSCredential("test\Administrator",$pwd)
     $domainSafeModeCred = New-Object System.Management.Automation.PSCredential('(Password Only)',$pwd)
